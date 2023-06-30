@@ -1,0 +1,10 @@
+{
+  "titleAccountSelection": "选择账户",
+  "titleRecordSelection": "选择记录",
+  "textNoAccount": "没有可用的账户",
+  "btnNoAccountListed": "没有列出您的账户？",
+  "textNoAccountListed": "您的账户可能还未收到被记录的消息。您可以刷新此页面重试。",
+  "textGroups": "群",
+  "textFriends": "好友",
+  "textSelectFromLeft": "从左侧选择一条记录查看"
+}

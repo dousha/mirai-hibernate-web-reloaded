@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Suspense} from 'react';
 import './App.css';
+import LandingPage from "./pages/LandingPage";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
+import SuspensePage from "./pages/SuspensePage";
+import {Route, Routes} from "react-router-dom";
+import DashboardPage from "./pages/DashboardPage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    return (
+        <>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+                <Suspense fallback={<SuspensePage />}>
+                    <div className={'app'}>
+                        <Routes>
+                            <Route index element={<LandingPage />} />
+                            <Route path={'/bot/:botId'} element={<DashboardPage />} />
+                        </Routes>
+                    </div>
+                </Suspense>
+            </LocalizationProvider>
+        </>
+    );
 }
-
-export default App;
