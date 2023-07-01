@@ -6,5 +6,13 @@
   "textNoAccountListed": "您的账户可能还未收到被记录的消息。您可以刷新此页面重试。",
   "textGroups": "群",
   "textFriends": "好友",
-  "textSelectFromLeft": "从左侧选择一条记录查看"
+  "textSelectFromLeft": "从左侧选择一条记录查看",
+  "textUnsupportedMessage": "(暂不支持的消息类型)",
+  "textBotCacheMissing": "账号缓存信息丢失，请回到账号选择页面重新选择。",
+  "textBackToAccountSelection": "返回到账号选择",
+  "labelStartTime": "起始时间",
+  "labelEndTime": "截止时间",
+  "labelHideRetracted": "隐藏撤回的消息",
+  "btnRefresh": "刷新",
+  "textRetractedMessage": "此条消息已撤回"
 }

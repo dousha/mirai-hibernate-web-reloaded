@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Route, Routes, useParams} from "react-router-dom";
+import {Route, Routes, useNavigate, useParams} from "react-router-dom";
 import {
     AppBar, Avatar,
     Box,
@@ -16,13 +16,18 @@ import {getAvatarUrl} from "../logic/WebRequests";
 import {useTranslation} from "react-i18next";
 import {GroupSelection} from "../components/GroupSelection";
 import {FriendSelection} from "../components/FriendSelection";
+import DashboardGroupViewFragment from "../fragments/DashboardGroupViewFragment";
+import DashboardContactViewFragment from "../fragments/DashboardContactViewFragment";
 
 export default function DashboardPage() {
     const {botId} = useParams();
     const {t} = useTranslation();
+    const navigate = useNavigate();
 
     const [title, setTitle] = useState(t('titleRecordSelection'));
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [selectedGroup, setSelectedGroup] = useState('');
+    const [selectedContact, setSelectedContact] = useState('');
 
     const handleDrawerToggle = () => {
         setDrawerOpen(!drawerOpen);
@@ -70,16 +75,22 @@ export default function DashboardPage() {
                 </Toolbar>
                 <Divider/>
                 <List>
-                    <GroupSelection botId={botId} onGroupSelect={group => {}} />
-                    <FriendSelection botId={botId} onFriendSelect={group => {}} />
+                    <GroupSelection botId={botId} selectedGroup={selectedGroup} onGroupSelect={group => {
+                        setSelectedGroup(group.toString());
+                        navigate(`group/${group}`)
+                    }}/>
+                    <FriendSelection botId={botId} selectedContact={selectedContact} onFriendSelect={friend => {
+                        setSelectedContact(friend.toString());
+                        navigate(`friend/${friend}`)
+                    }}/>
                 </List>
             </Drawer>
             <Box component={'main'} sx={{flexGrow: 1, p: 2}}>
-                <Toolbar />
+                <Toolbar/>
                 <Routes>
                     <Route index element={<Typography>{t('textSelectFromLeft')}</Typography>}/>
-                    <Route path={'group/:groupId'} />
-                    <Route path={'friend/:friendId'} />
+                    <Route path={'group/:groupId'} element={<DashboardGroupViewFragment botId={botId}/>}/>
+                    <Route path={'friend/:friendId'} element={<DashboardContactViewFragment botId={botId}/>}/>
                 </Routes>
             </Box>
         </Box>

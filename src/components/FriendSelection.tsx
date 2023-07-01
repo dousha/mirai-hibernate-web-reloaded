@@ -17,6 +17,7 @@ import {extractFriendId, FriendListEntry} from "../logic/model/FriendListRespons
 
 export interface FriendSelectionProps {
     botId: string | number;
+    selectedContact: string | number;
 
     onFriendSelect: (x: string | number) => void;
 }
@@ -45,22 +46,23 @@ export function FriendSelection(props: FriendSelectionProps) {
     let friendEntries;
     if (loading) {
         friendEntries = (
-            <ListItem sx={{p: 0}}>
+            <ListItem disablePadding>
                 <ListItemAvatar>
                     <Avatar>
-                        <Skeleton />
+                        <Skeleton/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={<Skeleton />} />
+                <ListItemText primary={<Skeleton/>}/>
             </ListItem>
         );
     } else {
-        friendEntries = friends.map((it, index) => <ListItem key={index} sx={{p: 0}}>
-            <ListItemButton sx={{pl: 4}}>
+        friendEntries = friends.map((it, index) => <ListItem key={index} disablePadding>
+            <ListItemButton sx={{pl: 4}} onClick={() => props.onFriendSelect(extractFriendId(it.uuid))}
+                            selected={extractFriendId(it).toString() === props.selectedContact.toString()}>
                 <ListItemAvatar>
                     <Avatar alt={`Avatar of ${it.remark}`} src={getAvatarUrl(extractFriendId(it))}></Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={it.remark} secondary={extractFriendId(it)} />
+                <ListItemText primary={it.remark} secondary={extractFriendId(it)}/>
             </ListItemButton>
         </ListItem>)
     }
@@ -72,10 +74,10 @@ export function FriendSelection(props: FriendSelectionProps) {
                     setOpen(!open);
                 }}>
                     <ListItemIcon>
-                        <Contacts />
+                        <Contacts/>
                     </ListItemIcon>
-                    <ListItemText primary={t('textFriends')} />
-                    {open ? <ExpandLess /> : <ExpandMore />}
+                    <ListItemText primary={t('textFriends')}/>
+                    {open ? <ExpandLess/> : <ExpandMore/>}
                 </ListItemButton>
             </ListItem>
             <Collapse in={open} timeout={'auto'} unmountOnExit>

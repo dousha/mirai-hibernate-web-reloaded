@@ -1,5 +1,17 @@
 {
   "titleAccountSelection": "Select an account",
   "textNoAccount": "No available account",
-  "btnNoAccountListed": "Accounts missing?"
+  "btnNoAccountListed": "Accounts missing?",
+  "textNoAccountListed": "Your account may has yet to receive any message. Try refreshing.",
+  "textGroups": "Groups",
+  "textFriends": "Friends",
+  "textSelectFromLeft": "Select a group or a friend from the sidebar",
+  "textUnsupportedMessage": "(Unsupported message type)",
+  "textBotCacheMissing": "Account info missing. Please re-select your account.",
+  "textBackToAccountSelection": "Back to account selection",
+  "labelStartTime": "Start time",
+  "labelEndTime": "End time",
+  "labelHideRetracted": "Hide retracted messages",
+  "btnRefresh": "Refresh",
+  "textRetractedMessage": "This message was retracted"
 }

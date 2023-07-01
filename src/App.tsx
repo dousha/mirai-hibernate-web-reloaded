@@ -15,7 +15,7 @@ export default function App() {
                     <div className={'app'}>
                         <Routes>
                             <Route index element={<LandingPage />} />
-                            <Route path={'/bot/:botId'} element={<DashboardPage />} />
+                            <Route path={'/bot/:botId/*'} element={<DashboardPage />} />
                         </Routes>
                     </div>
                 </Suspense>

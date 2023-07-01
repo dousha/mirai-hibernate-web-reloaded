@@ -9,3 +9,7 @@ export function toDateTime(x: UnixTimestamp) {
 export function toMoment(x: UnixTimestamp) {
     return moment(x * 1e3);
 }
+
+export function nowUnix() {
+    return Math.floor((new Date()).getTime() / 1e3);
+}

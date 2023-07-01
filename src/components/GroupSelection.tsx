@@ -17,6 +17,7 @@ import {useTranslation} from "react-i18next";
 
 export interface GroupSelectionProps {
     botId: string | number;
+    selectedGroup: string | number;
 
     onGroupSelect: (x: string | number) => void;
 }
@@ -45,22 +46,23 @@ export function GroupSelection(props: GroupSelectionProps) {
     let groupEntries;
     if (loading) {
         groupEntries = (
-            <ListItem sx={{p: 0}}>
+            <ListItem disablePadding>
                 <ListItemAvatar>
                     <Avatar>
-                        <Skeleton />
+                        <Skeleton/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={<Skeleton />} />
+                <ListItemText primary={<Skeleton/>}/>
             </ListItem>
         );
     } else {
-        groupEntries = groups.map((it, index) => <ListItem key={index} sx={{p: 0}}>
-            <ListItemButton sx={{pl: 4}}>
+        groupEntries = groups.map((it, index) => <ListItem key={index} disablePadding>
+            <ListItemButton sx={{pl: 4}} onClick={() => props.onGroupSelect(it.group)}
+                            selected={it.group.toString() === props.selectedGroup.toString()}>
                 <ListItemAvatar>
                     <Avatar alt={`Avatar of ${it.name}`} src={getGroupAvatarUrl(it.group)}></Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={it.name} secondary={it.group} />
+                <ListItemText primary={it.name} secondary={it.group}/>
             </ListItemButton>
         </ListItem>)
     }
@@ -72,10 +74,10 @@ export function GroupSelection(props: GroupSelectionProps) {
                     setOpen(!open);
                 }}>
                     <ListItemIcon>
-                        <Group />
+                        <Group/>
                     </ListItemIcon>
-                    <ListItemText primary={t('textGroups')} />
-                    {open ? <ExpandLess /> : <ExpandMore />}
+                    <ListItemText primary={t('textGroups')}/>
+                    {open ? <ExpandLess/> : <ExpandMore/>}
                 </ListItemButton>
             </ListItem>
             <Collapse in={open} timeout={'auto'} unmountOnExit>
