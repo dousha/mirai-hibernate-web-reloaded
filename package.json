@@ -52,5 +52,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://dousha-box.local:12582"
+  "proxy": "http://dousha-box.local:12582",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }
