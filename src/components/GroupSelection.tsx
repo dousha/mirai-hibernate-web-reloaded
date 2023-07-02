@@ -19,7 +19,7 @@ export interface GroupSelectionProps {
     botId: string | number;
     selectedGroup: string | number;
 
-    onGroupSelect: (x: string | number) => void;
+    onGroupSelect: (x: string | number, n: string) => void;
 }
 
 export function GroupSelection(props: GroupSelectionProps) {
@@ -57,7 +57,7 @@ export function GroupSelection(props: GroupSelectionProps) {
         );
     } else {
         groupEntries = groups.map((it, index) => <ListItem key={index} disablePadding>
-            <ListItemButton sx={{pl: 4}} onClick={() => props.onGroupSelect(it.group)}
+            <ListItemButton sx={{pl: 4}} onClick={() => props.onGroupSelect(it.group, it.name)}
                             selected={it.group.toString() === props.selectedGroup.toString()}>
                 <ListItemAvatar>
                     <Avatar alt={`Avatar of ${it.name}`} src={getGroupAvatarUrl(it.group)}></Avatar>

@@ -75,12 +75,14 @@ export default function DashboardPage() {
                 </Toolbar>
                 <Divider/>
                 <List>
-                    <GroupSelection botId={botId} selectedGroup={selectedGroup} onGroupSelect={group => {
+                    <GroupSelection botId={botId} selectedGroup={selectedGroup} onGroupSelect={(group, name) => {
                         setSelectedGroup(group.toString());
+                        setTitle(name);
                         navigate(`group/${group}`)
                     }}/>
-                    <FriendSelection botId={botId} selectedContact={selectedContact} onFriendSelect={friend => {
+                    <FriendSelection botId={botId} selectedContact={selectedContact} onFriendSelect={(friend, name) => {
                         setSelectedContact(friend.toString());
+                        setTitle(name);
                         navigate(`friend/${friend}`)
                     }}/>
                 </List>

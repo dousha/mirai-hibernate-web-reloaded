@@ -19,7 +19,7 @@ export interface FriendSelectionProps {
     botId: string | number;
     selectedContact: string | number;
 
-    onFriendSelect: (x: string | number) => void;
+    onFriendSelect: (x: string | number, n: string) => void;
 }
 
 export function FriendSelection(props: FriendSelectionProps) {
@@ -57,7 +57,7 @@ export function FriendSelection(props: FriendSelectionProps) {
         );
     } else {
         friendEntries = friends.map((it, index) => <ListItem key={index} disablePadding>
-            <ListItemButton sx={{pl: 4}} onClick={() => props.onFriendSelect(extractFriendId(it.uuid))}
+            <ListItemButton sx={{pl: 4}} onClick={() => props.onFriendSelect(extractFriendId(it.uuid), it.remark)}
                             selected={extractFriendId(it).toString() === props.selectedContact.toString()}>
                 <ListItemAvatar>
                     <Avatar alt={`Avatar of ${it.remark}`} src={getAvatarUrl(extractFriendId(it))}></Avatar>
