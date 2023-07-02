@@ -11,7 +11,7 @@ export default function UnknownMessageBlock(props: UnknownMessageBlockProps) {
 
     return (
         <>
-            <Typography color={'info'}>{t('textUnsupportedMessage')}</Typography>
+            <Typography color={'info'}>{t('textUnsupportedMessage') + `#${props.msg.type}`}</Typography>
         </>
     );
 }

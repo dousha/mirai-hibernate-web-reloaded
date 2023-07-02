@@ -24,7 +24,8 @@ export default function QuotedMessageBlock(props: QuotedMessageBlockProps) {
                 </Grid>
             </Grid>
             <Grid item>
-                <UnifiedMessageLine msg={source.originalMessage} fromId={source.fromId} targetId={source.targetId} />
+                <UnifiedMessageLine msg={source.originalMessage} fromId={source.fromId} targetId={source.targetId}
+                                    queryMemberName={x => x.toString()}/>
             </Grid>
         </Grid>
     </>);

@@ -24,6 +24,8 @@ export interface MessageLineProps {
     setRefreshTrigger: (x: number) => void;
     hideRetractedMessages: boolean;
     setHideRetractedMessages: (x: boolean) => void;
+
+    queryMemberName: (x: number | string) => string;
 }
 
 export default function MessageLines(props: MessageLineProps) {
@@ -40,7 +42,8 @@ export default function MessageLines(props: MessageLineProps) {
         refreshTrigger,
         setRefreshTrigger,
         hideRetractedMessages,
-        setHideRetractedMessages
+        setHideRetractedMessages,
+        queryMemberName
     } = props;
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -140,7 +143,7 @@ export default function MessageLines(props: MessageLineProps) {
                                         <Grid item>
                                             <Grid container direction={'row'} justifyContent={'space-between'}>
                                                 <Grid item>
-                                                    <Typography>{it.fromId}</Typography>
+                                                    <Typography>{queryMemberName(it.fromId)}</Typography>
                                                 </Grid>
                                                 <Grid item>
                                                     {it.recalled ?
@@ -153,7 +156,7 @@ export default function MessageLines(props: MessageLineProps) {
                                             </Grid>
                                         </Grid>
                                         <Grid item>
-                                            <MessageLine msg={it}/>
+                                            <MessageLine msg={it} queryMemberName={queryMemberName}/>
                                         </Grid>
                                     </Grid>
                                 </Grid>

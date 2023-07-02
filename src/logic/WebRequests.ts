@@ -5,6 +5,7 @@ import {GroupListResponse} from "./model/GroupListResponse";
 import {FriendListResponse} from "./model/FriendListResponse";
 import {UnixTimestamp} from "./model/UnixTimestamp";
 import {MessageListResponse} from "./model/MessageListResponse";
+import {GroupMemberListResponse} from "./model/GroupMemberListResponse";
 
 const cachedBots: BotListEntry[] = [];
 
@@ -55,5 +56,10 @@ export async function fetchGroupMessage(bot: number | string, group: number | st
 
 export async function fetchFriendMessage(bot: number | string, friend: number | string, from: UnixTimestamp, to: UnixTimestamp) {
     let result = await getUrl<MessageListResponse>('/message/friend', {bot: bot, friend: friend, start: from, end: to});
+    return extractPayload(result);
+}
+
+export async function fetchGroupMembers(group: number | string) {
+    let result = await getUrl<GroupMemberListResponse>('/archive/member', {group: group});
     return extractPayload(result);
 }

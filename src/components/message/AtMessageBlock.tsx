@@ -4,10 +4,12 @@ import {Typography} from "@mui/material";
 
 export interface AtMessageBlockProps {
     msg: AtMessageComponent;
+
+    queryMemberName: (x: number | string) => string;
 }
 
 export default function AtMessageBlock(props: AtMessageBlockProps) {
     return (<>
-        <Typography color={'navy'}>@{props.msg.target}</Typography>
+        <Typography color={'navy'}>@{props.queryMemberName(props.msg.target)}</Typography>
     </>);
 }

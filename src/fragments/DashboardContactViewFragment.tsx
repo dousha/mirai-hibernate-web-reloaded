@@ -4,6 +4,7 @@ import {fetchFriendMessage, getCachedBotList} from "../logic/WebRequests";
 import {nowUnix} from "../logic/model/UnixTimestamp";
 import {MessageEntry} from "../logic/model/MessageListResponse";
 import MessageLines from "../components/MessageLines";
+import moment, {now} from "moment";
 
 export interface DashboardContactViewFragmentProps {
     botId: number | string;
@@ -14,10 +15,10 @@ export default function DashboardContactViewFragment(props: DashboardContactView
     const cachedBots = getCachedBotList();
     const currentBot = cachedBots.find(it => it.bot.toString() === props.botId.toString());
 
-    const [startTime, setStartTime] = useState(currentBot ? currentBot.init : 0);
+    const [startTime, setStartTime] = useState(moment(now()).startOf('day').unix());
     const [endTime, setEndTime] = useState(nowUnix());
-    const [committedStartTime, setCommittedStartTime] = useState(currentBot ? currentBot.init : 0);
-    const [committedEndTime, setCommittedEndTime] = useState(nowUnix());
+    const [committedStartTime, setCommittedStartTime] = useState(startTime);
+    const [committedEndTime, setCommittedEndTime] = useState(endTime);
     const [hideRetracted, setHideRetracted] = useState(false);
 
     const [messages, setMessages] = useState<MessageEntry[]>([]);
@@ -42,5 +43,7 @@ export default function DashboardContactViewFragment(props: DashboardContactView
                          hideRetractedMessages={hideRetracted} setHideRetractedMessages={setHideRetracted}
                          startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime}
                          setCommittedStartTime={setCommittedStartTime} setCommittedEndTime={setCommittedEndTime}
-                         refreshTrigger={refreshTrigger} setRefreshTrigger={setRefreshTrigger}/>
+                         refreshTrigger={refreshTrigger} setRefreshTrigger={setRefreshTrigger}
+                         queryMemberName={x => x.toString()}
+    />
 }
