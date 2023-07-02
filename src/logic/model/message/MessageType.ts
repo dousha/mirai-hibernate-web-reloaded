@@ -5,5 +5,7 @@ export enum MessageType {
     Image = 'Image',
     ForwardedMessageCard = 'MessageOrigin',
     ForwardedMessage = 'ForwardMessage',
+    File = 'FileMessage',
+    MarketFace = 'MarketFace',
     Unknown = 'UnsupportedMessage',
 }
