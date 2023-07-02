@@ -77,11 +77,13 @@ export default function DashboardPage() {
                 <List>
                     <GroupSelection botId={botId} selectedGroup={selectedGroup} onGroupSelect={(group, name) => {
                         setSelectedGroup(group.toString());
+                        setSelectedContact('');
                         setTitle(name);
                         navigate(`group/${group}`)
                     }}/>
                     <FriendSelection botId={botId} selectedContact={selectedContact} onFriendSelect={(friend, name) => {
                         setSelectedContact(friend.toString());
+                        setSelectedGroup('');
                         setTitle(name);
                         navigate(`friend/${friend}`)
                     }}/>
