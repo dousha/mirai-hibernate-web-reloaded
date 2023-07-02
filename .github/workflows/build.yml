@@ -1,0 +1,53 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Node 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install
+        uses: borales/actions-yarn@v4.2.0
+        with:
+          cmd: install
+
+      - name: Build
+        uses: borales/actions-yarn@v4.2.0
+        with:
+          cmd: build
+
+      - name: Archive
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r web.zip build
+
+      - name: Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./web.zip
+          asset_name: web.zip
+          asset_content_type: application/zip
