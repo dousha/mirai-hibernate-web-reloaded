@@ -40,8 +40,7 @@ export default function LandingPage() {
     return (<>
         <Container>
             <Grid container direction={'column'} alignItems={'center'}>
-                <Grid item xs sx={{minHeight: '1rem'}}/>
-                <Grid item xs>
+                <Grid item xs sx={{marginTop: '1rem'}}>
                     <Card sx={{minWidth: '20rem'}}>
                         <CardHeader title={t('titleAccountSelection')}/>
                         <CardContent sx={{padding: loading || accounts.length > 0 ? 0 : null}}>
@@ -67,7 +66,6 @@ export default function LandingPage() {
                         </CardActions>
                     </Card>
                 </Grid>
-                <Grid xs/>
             </Grid>
         </Container>
         <Dialog open={dialogOpen} onClose={onDialogClosing}>
