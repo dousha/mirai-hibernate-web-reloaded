@@ -14,5 +14,6 @@
   "labelEndTime": "截止时间",
   "labelHideRetracted": "隐藏撤回的消息",
   "btnRefresh": "刷新",
-  "textRetractedMessage": "此条消息已撤回"
+  "textRetractedMessage": "此条消息已撤回",
+  "btnRecent": "加载最近的消息"
 }

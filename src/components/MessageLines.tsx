@@ -8,6 +8,7 @@ import {BotListEntry} from "../logic/model/BotListResponse";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {MessageEntry} from "../logic/model/MessageListResponse";
+import moment, { now } from 'moment';
 
 export interface MessageLineProps {
     currentBot: BotListEntry | null | undefined;
@@ -60,7 +61,7 @@ export default function MessageLines(props: MessageLineProps) {
             <Grid item>
                 <Paper elevation={1} sx={{p: 2}}>
                     <Grid container spacing={1} alignItems={'center'}>
-                        <Grid item xs={4}>
+                        <Grid item>
                             <MobileDateTimePicker label={t('labelStartTime')} value={toMoment(startTime)}
                                                   onChange={value => {
                                                       if (value) {
@@ -78,7 +79,7 @@ export default function MessageLines(props: MessageLineProps) {
                             />
                         </Grid>
 
-                        <Grid item xs={4}>
+                        <Grid item>
                             <MobileDateTimePicker label={t('labelEndTime')} value={toMoment(endTime)}
                                                   onChange={value => {
                                                       if (value) {
@@ -96,10 +97,26 @@ export default function MessageLines(props: MessageLineProps) {
                             />
                         </Grid>
 
-                        <Grid item xs={4}>
-                            <Button variant={'outlined'} disabled={loading} onClick={() => {
-                                setRefreshTrigger(refreshTrigger + 1);
-                            }}>{t('btnRefresh')}</Button>
+                        <Grid item>
+                            <Grid container spacing={1}>
+                                <Grid item>
+                                    <Button variant={'outlined'} disabled={loading} onClick={() => {
+                                        setRefreshTrigger(refreshTrigger + 1);
+                                    }}>
+                                        {t('btnRefresh')}
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button variant={'outlined'} disabled={loading} onClick={() => {
+                                        let endTimeObj = moment(now());
+
+                                        setEndTime(endTimeObj.unix());
+                                        setCommittedEndTime(endTimeObj.unix());
+                                    }}>
+                                        {t('btnRecent')}
+                                    </Button>
+                                </Grid>
+                            </Grid>
                         </Grid>
 
                         <Grid item>
