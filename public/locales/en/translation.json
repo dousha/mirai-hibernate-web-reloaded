@@ -14,5 +14,8 @@
   "labelHideRetracted": "Hide retracted messages",
   "btnRefresh": "Refresh",
   "textRetractedMessage": "This message was retracted",
-  "btnRecent": "Load recent"
+  "btnRecent": "Load recent",
+  "textNoMessage": "No message in this period",
+  "textLoadMore": "Load more",
+  "textEndOfEverything": "All messages were loaded"
 }

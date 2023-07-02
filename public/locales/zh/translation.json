@@ -15,5 +15,8 @@
   "labelHideRetracted": "隐藏撤回的消息",
   "btnRefresh": "刷新",
   "textRetractedMessage": "此条消息已撤回",
-  "btnRecent": "加载最近的消息"
+  "btnRecent": "加载最近的消息",
+  "textNoMessage": "这个时间段内没有消息",
+  "textLoadMore": "加载更多消息",
+  "textEndOfEverything": "已到达记录开始"
 }

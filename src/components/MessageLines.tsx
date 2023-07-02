@@ -8,7 +8,7 @@ import {BotListEntry} from "../logic/model/BotListResponse";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {MessageEntry} from "../logic/model/MessageListResponse";
-import moment, { now } from 'moment';
+import moment, {now} from 'moment';
 
 export interface MessageLineProps {
     currentBot: BotListEntry | null | undefined;
@@ -55,6 +55,8 @@ export default function MessageLines(props: MessageLineProps) {
             <Button onClick={() => navigate('/')}>{t('textBackToAccountSelection')}</Button>
         </>);
     }
+
+    const reachedEoS = toMoment(startTime).isSameOrBefore(toMoment(currentBot.init));
 
     return (<>
         <Grid container direction={'column'} spacing={1}>
@@ -148,39 +150,68 @@ export default function MessageLines(props: MessageLineProps) {
                             </Grid>
                         </Grid>
                     </Paper>
-                </Grid> : messages.map((it, index) => hideRetractedMessages && it.recalled ? null :
-                    <Grid item key={index}>
+                </Grid> :
+                messages.length === 0 ?
+                    <Grid item>
                         <Paper elevation={1} sx={{p: 2}}>
-                            <Grid container direction={'row'} spacing={1}>
-                                <Grid item>
-                                    <Avatar alt={`Avatar of ${it.fromId}`} src={getAvatarUrl(it.fromId)}/>
-                                </Grid>
-                                <Grid item xs>
-                                    <Grid container direction={'column'} alignContent={'stretch'}>
-                                        <Grid item>
-                                            <Grid container direction={'row'} justifyContent={'space-between'}>
-                                                <Grid item>
-                                                    <Typography>{queryMemberName(it.fromId)}</Typography>
-                                                </Grid>
-                                                <Grid item>
-                                                    {it.recalled ?
-                                                        <Typography>{t('textRetractedMessage')}</Typography> : null}
-                                                </Grid>
-                                                <Grid item>
-                                                    <Typography
-                                                        color={'gray'}>{toMoment(it.time).format('YYYY-MM-DD HH:mm')}</Typography>
+                            <Typography align={'center'}>{t('textNoMessage')}</Typography>
+                        </Paper>
+                    </Grid>
+                    :
+                    messages.map((it, index) => hideRetractedMessages && it.recalled ? null :
+                        <Grid item key={index}>
+                            <Paper elevation={1} sx={{p: 2}}>
+                                <Grid container direction={'row'} spacing={1}>
+                                    <Grid item>
+                                        <Avatar alt={`Avatar of ${it.fromId}`} src={getAvatarUrl(it.fromId)}/>
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Grid container direction={'column'} alignContent={'stretch'}>
+                                            <Grid item>
+                                                <Grid container direction={'row'} justifyContent={'space-between'}>
+                                                    <Grid item>
+                                                        <Typography>{queryMemberName(it.fromId)}</Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        {it.recalled ?
+                                                            <Typography>{t('textRetractedMessage')}</Typography> : null}
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Typography
+                                                            color={'gray'}>{toMoment(it.time).format('YYYY-MM-DD HH:mm')}</Typography>
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
-                                        </Grid>
-                                        <Grid item>
-                                            <MessageLine msg={it} queryMemberName={queryMemberName}/>
+                                            <Grid item>
+                                                <MessageLine msg={it} queryMemberName={queryMemberName}/>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
+                            </Paper>
+                        </Grid>
+                    )
+            }
+            {
+                loading ? null :
+                    <Grid item>
+                        <Paper elevation={1} sx={{p: reachedEoS ? 2 : 0}}>
+                            {
+                                reachedEoS ?
+                                    <Typography align={'center'}>{t('textEndOfEverything')}</Typography> :
+                                    <Button sx={{width: '100%'}} onClick={() => {
+                                        let time = toMoment(startTime).subtract(12, 'hours');
+                                        if (time.isBefore(toMoment(currentBot.init))) {
+                                            time = toMoment(currentBot.init);
+                                        }
+
+                                        setStartTime(time.unix());
+                                        setCommittedStartTime(time.unix());
+                                    }}>{t('textLoadMore')}</Button>
+                            }
                         </Paper>
                     </Grid>
-                )}
+            }
         </Grid>
     </>);
 }
