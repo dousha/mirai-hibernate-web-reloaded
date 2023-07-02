@@ -17,5 +17,6 @@
   "btnRecent": "Load recent",
   "textNoMessage": "No message in this period",
   "textLoadMore": "Load more",
-  "textEndOfEverything": "All messages were loaded"
+  "textEndOfEverything": "All messages were loaded",
+  "btnDownload": "Download"
 }

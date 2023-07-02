@@ -18,5 +18,6 @@
   "btnRecent": "加载最近的消息",
   "textNoMessage": "这个时间段内没有消息",
   "textLoadMore": "加载更多消息",
-  "textEndOfEverything": "已到达记录开始"
+  "textEndOfEverything": "已到达记录开始",
+  "btnDownload": "下载附件"
 }

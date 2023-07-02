@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-    AtMessageComponent, ForwardedMessageComponent,
-    ImageMessageComponent,
+    AtMessageComponent, FileMessageComponent, ForwardedMessageComponent,
+    ImageMessageComponent, MarketFaceComponent,
     MessageBody, MessageOriginComponent,
     PlainTextMessageComponent,
     ReplyMessageComponent,
@@ -15,6 +15,8 @@ import ImageMessageBlock from "./message/ImageMessageBlock";
 import QuotedMessageBlock from "./message/QuotedMessageBlock";
 import ForwardedMessageXmlBlock from "./message/ForwardedMessageXmlBlock";
 import ForwardedMessageBlock from "./message/ForwardedMessageBlock";
+import MarketFaceBlock from "./message/MarketFaceBlock";
+import FileMessageBlock from "./message/FileMessageBlock";
 
 export interface MessageLineProps {
     msg: MessageBody;
@@ -43,6 +45,10 @@ export default function UnifiedMessageLine(props: MessageLineProps) {
                 return (<ForwardedMessageXmlBlock key={index} msg={it as MessageOriginComponent}/>);
             case MessageType.ForwardedMessage:
                 return (<ForwardedMessageBlock key={index} msg={it as ForwardedMessageComponent}/>);
+            case MessageType.File:
+                return (<FileMessageBlock key={index} msg={it as FileMessageComponent} />);
+            case MessageType.MarketFace:
+                return (<MarketFaceBlock key={index} msg={it as MarketFaceComponent}/>);
             case MessageType.Unknown:
             default:
                 return (<UnknownMessageBlock key={index} msg={it as UnsupportedMessageComponent}/>);

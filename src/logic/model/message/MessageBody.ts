@@ -70,6 +70,32 @@ export interface ForwardedMessageComponent extends MessageComponent {
     nodeList: Array<ForwardedMessageItem>;
 }
 
+export interface FileMessageComponent extends MessageComponent {
+    type: MessageType.File;
+    id: string;
+    internalId: number;
+    name: string;
+    size: number;
+}
+
+export interface MarketFaceDelegate {
+    faceName: Array<number>;
+    itemType: number;
+    faceInfo: number;
+    faceId: Array<number>;
+    tabId: number;
+    subType: number;
+    key: Array<number>;
+    imageWidth: number;
+    imageHeight: number;
+    pbReserve: Array<number>;
+}
+
+export interface MarketFaceComponent extends MessageComponent {
+    type: MessageType.MarketFace;
+    delegate: MarketFaceDelegate;
+}
+
 export interface UnsupportedMessageComponent extends MessageComponent {
     type: MessageType.Unknown;
 }
