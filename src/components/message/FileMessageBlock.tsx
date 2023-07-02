@@ -11,7 +11,7 @@ import {
     VideoFile,
     ViewInAr
 } from "@mui/icons-material";
-import {Button, Grid, Icon, Paper, Typography} from '@mui/material';
+import {Button, Grid, Paper, Typography} from '@mui/material';
 import prettyBytes from "pretty-bytes";
 import {useTranslation} from "react-i18next";
 
