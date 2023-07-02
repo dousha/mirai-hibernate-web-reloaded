@@ -9,17 +9,33 @@ import {GroupMemberListResponse} from "./model/GroupMemberListResponse";
 
 const cachedBots: BotListEntry[] = [];
 
-export function getAvatarUrl(x: number | string) {
-    return `http://q1.qlogo.cn/g?b=qq&nk=${x}&s=640`;
+export function getAvatarUrl(x: number | string, size: number = 140) {
+    return `http://q1.qlogo.cn/g?b=qq&nk=${x}&s=${size}`;
 }
 
-export function getGroupAvatarUrl(x: number | string) {
-    return `http://p.qlogo.cn/gh/${x}/${x}/640`;
+export function getGroupAvatarUrl(x: number | string, size: number = 140) {
+    return `http://p.qlogo.cn/gh/${x}/${x}/${size}`;
 }
 
 export function getImageUrl(fromId: number, targetId: number, imageId: string, isFlashImage = false) {
+    if (imageId[0] == '/') {
+        return `http://c2cpicdw.qpic.cn/offpic_new/${fromId}${imageId}/0?term=${isFlashImage ? 2 : 3}`;
+    }
     let match = imageId.substring(1, 37).replaceAll("-", "");
     return `https://gchat.qpic.cn/gchatpic_new/${fromId}/${targetId}-0-${match}/0?term=${isFlashImage ? 2 : 3}`;
+}
+
+function getMarketFaceUrl(delegate: any) {
+    let md5 = delegate.faceId as string;
+    let size = delegate.tabId < 10_0000 ? 200 : 300;
+    let type = delegate.subType as number;
+    if (type == 1 || type == 3) {
+        return `https://gxh.vip.qq.com/club/item/parcel/item/${md5.substring(0, 2)}/${md5}/raw${size}.gif`;
+    }
+    if (type == 2) {
+        return `https://gxh.vip.qq.com/club/item/parcel/item/${md5.substring(0, 2)}/${md5}/raw${size}.png`;
+    }
+    return `https://gxh.vip.qq.com/club/item/parcel/item/${md5.substring(0, 2)}/$md5/${size}x${size}.png`;
 }
 
 async function getUrl<T>(url: string, params?: Record<string, string | number>) {
