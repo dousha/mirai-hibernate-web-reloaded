@@ -5,6 +5,7 @@ import {nowUnix} from "../logic/model/UnixTimestamp";
 import {MessageEntry} from "../logic/model/MessageListResponse";
 import MessageLines from "../components/MessageLines";
 import moment, {now} from "moment";
+import {Box} from "@mui/material";
 
 export interface DashboardContactViewFragmentProps {
     botId: number | string;
@@ -39,11 +40,14 @@ export default function DashboardContactViewFragment(props: DashboardContactView
         });
     }, [friendId, committedStartTime, committedEndTime, currentBot, refreshTrigger]);
 
-    return <MessageLines currentBot={currentBot} loading={loading} messages={messages}
-                         hideRetractedMessages={hideRetracted} setHideRetractedMessages={setHideRetracted}
-                         startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime}
-                         setCommittedStartTime={setCommittedStartTime} setCommittedEndTime={setCommittedEndTime}
-                         refreshTrigger={refreshTrigger} setRefreshTrigger={setRefreshTrigger}
-                         queryMemberName={x => x.toString()}
-    />
+    return (
+        <Box sx={{height: '100%'}}>
+            <MessageLines currentBot={currentBot} loading={loading} messages={messages}
+                          hideRetractedMessages={hideRetracted} setHideRetractedMessages={setHideRetracted}
+                          startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime}
+                          setCommittedStartTime={setCommittedStartTime} setCommittedEndTime={setCommittedEndTime}
+                          refreshTrigger={refreshTrigger} setRefreshTrigger={setRefreshTrigger}
+                          queryMemberName={x => x.toString()}/>
+        </Box>
+    );
 }

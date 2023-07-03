@@ -1,5 +1,16 @@
 import React from 'react';
-import {Avatar, Button, FormControlLabel, FormGroup, Grid, Paper, Skeleton, Switch, Typography} from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Button,
+    FormControlLabel,
+    FormGroup,
+    Grid,
+    Paper,
+    Skeleton,
+    Switch,
+    Typography
+} from "@mui/material";
 import {MobileDateTimePicker} from "@mui/x-date-pickers";
 import {toMoment} from "../logic/model/UnixTimestamp";
 import {getAvatarUrl} from "../logic/WebRequests";
@@ -9,6 +20,7 @@ import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 import {MessageEntry} from "../logic/model/MessageListResponse";
 import moment, {now} from 'moment';
+import {AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList} from 'react-virtualized';
 
 export interface MessageLineProps {
     currentBot: BotListEntry | null | undefined;
@@ -48,6 +60,11 @@ export default function MessageLines(props: MessageLineProps) {
     } = props;
     const {t} = useTranslation();
     const navigate = useNavigate();
+    const cache = new CellMeasurerCache({
+        fixedWidth: true,
+        defaultHeight: 1,
+        minHeight: 1
+    });
 
     if (currentBot == null) {
         return (<>
@@ -58,9 +75,51 @@ export default function MessageLines(props: MessageLineProps) {
 
     const reachedEoS = toMoment(startTime).isSameOrBefore(toMoment(currentBot.init));
 
+    const renderRow = (obj: { index: number, key: any, style: any, parent: any }) => {
+        const {index, key, style, parent} = obj;
+        const it = messages[index];
+
+        return hideRetractedMessages && it.recalled ? null :
+            <CellMeasurer key={key} cache={cache} parent={parent} columnIndex={0} rowIndex={index}>
+                {(complex: { registerChild?: any }) =>
+                    <Box sx={{p: 1}} style={style} ref={complex.registerChild}>
+                        <Paper elevation={1} sx={{p: 2}}>
+                            <Grid container direction={'row'} spacing={1}>
+                                <Grid item>
+                                    <Avatar alt={`Avatar of ${it.fromId}`} src={getAvatarUrl(it.fromId)}/>
+                                </Grid>
+                                <Grid item xs>
+                                    <Grid container direction={'column'} alignContent={'stretch'}>
+                                        <Grid item>
+                                            <Grid container direction={'row'} justifyContent={'space-between'}>
+                                                <Grid item>
+                                                    <Typography>{queryMemberName(it.fromId)}</Typography>
+                                                </Grid>
+                                                <Grid item>
+                                                    {it.recalled ?
+                                                        <Typography>{t('textRetractedMessage')}</Typography> : null}
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography
+                                                        color={'gray'}>{toMoment(it.time).format('YYYY-MM-DD HH:mm')}</Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item>
+                                            <MessageLine msg={it} queryMemberName={queryMemberName}/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Box>
+                }
+            </CellMeasurer>
+    };
+
     return (<>
-        <Grid container direction={'column'} spacing={1}>
-            <Grid item>
+        <Grid container direction={'column'} spacing={1} height={'100%'}>
+            <Grid item xs={'auto'}>
                 <Paper elevation={1} sx={{p: 2}}>
                     <Grid container spacing={1} alignItems={'center'}>
                         <Grid item>
@@ -158,43 +217,22 @@ export default function MessageLines(props: MessageLineProps) {
                         </Paper>
                     </Grid>
                     :
-                    messages.map((it, index) => hideRetractedMessages && it.recalled ? null :
-                        <Grid item key={index}>
-                            <Paper elevation={1} sx={{p: 2}}>
-                                <Grid container direction={'row'} spacing={1}>
-                                    <Grid item>
-                                        <Avatar alt={`Avatar of ${it.fromId}`} src={getAvatarUrl(it.fromId)}/>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Grid container direction={'column'} alignContent={'stretch'}>
-                                            <Grid item>
-                                                <Grid container direction={'row'} justifyContent={'space-between'}>
-                                                    <Grid item>
-                                                        <Typography>{queryMemberName(it.fromId)}</Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        {it.recalled ?
-                                                            <Typography>{t('textRetractedMessage')}</Typography> : null}
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography
-                                                            color={'gray'}>{toMoment(it.time).format('YYYY-MM-DD HH:mm')}</Typography>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid item>
-                                                <MessageLine msg={it} queryMemberName={queryMemberName}/>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
-                        </Grid>
-                    )
+                    <Grid item flexGrow={1}>
+                        <AutoSizer>
+                            {
+                                (complex: { width: number, height: number }) =>
+                                    <VirtualList rowCount={messages.length} width={complex.width}
+                                                 height={complex.height}
+                                                 deferredMeasurementCache={cache} overscanRowCount={3}
+                                                 rowHeight={cache.rowHeight} rowRenderer={renderRow}/>
+
+                            }
+                        </AutoSizer>
+                    </Grid>
             }
             {
                 loading ? null :
-                    <Grid item>
+                    <Grid item xs={'auto'}>
                         <Paper elevation={1} sx={{p: reachedEoS ? 2 : 0}}>
                             {
                                 reachedEoS ?

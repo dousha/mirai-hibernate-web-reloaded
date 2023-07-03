@@ -40,7 +40,7 @@ export default function DashboardPage() {
     }
 
     return (<>
-        <Box sx={{display: 'flex'}}>
+        <Box sx={{display: 'flex', height: '100vh'}}>
             <CssBaseline/>
             <AppBar position={'fixed'} sx={{width: `calc(100% - ${drawerWidth})`, ml: drawerWidth}}>
                 <Toolbar>
@@ -89,13 +89,16 @@ export default function DashboardPage() {
                     }}/>
                 </List>
             </Drawer>
-            <Box component={'main'} sx={{flexGrow: 1, p: 2}}>
+            <Box component={'main'}
+                 sx={{flexGrow: 1, p: 2, display: 'flex', flexDirection: 'column', alignItems: 'stretch'}}>
                 <Toolbar/>
-                <Routes>
-                    <Route index element={<Typography>{t('textSelectFromLeft')}</Typography>}/>
-                    <Route path={'group/:groupId'} element={<DashboardGroupViewFragment botId={botId}/>}/>
-                    <Route path={'friend/:friendId'} element={<DashboardContactViewFragment botId={botId}/>}/>
-                </Routes>
+                <Box sx={{flexGrow: 1}}>
+                    <Routes>
+                        <Route index element={<Typography>{t('textSelectFromLeft')}</Typography>}/>
+                        <Route path={'group/:groupId'} element={<DashboardGroupViewFragment botId={botId}/>}/>
+                        <Route path={'friend/:friendId'} element={<DashboardContactViewFragment botId={botId}/>}/>
+                    </Routes>
+                </Box>
             </Box>
         </Box>
     </>);

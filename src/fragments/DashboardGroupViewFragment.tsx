@@ -7,6 +7,7 @@ import MessageLines from "../components/MessageLines";
 import moment, {now} from "moment/moment";
 import {GroupMemberEntry} from "../logic/model/GroupMemberListResponse";
 import {extractFriendId} from "../logic/model/FriendListResponse";
+import {Box} from "@mui/material";
 
 export interface DashboardGroupViewFragmentProps {
     botId: number | string;
@@ -46,14 +47,18 @@ export default function DashboardGroupViewFragment(props: DashboardGroupViewFrag
         });
     }, [groupId, committedStartTime, committedEndTime, currentBot, refreshTrigger]);
 
-    return <MessageLines currentBot={currentBot} loading={loading} messages={messages}
-                         hideRetractedMessages={hideRetracted} setHideRetractedMessages={setHideRetracted}
-                         startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime}
-                         setCommittedStartTime={setCommittedStartTime} setCommittedEndTime={setCommittedEndTime}
-                         refreshTrigger={refreshTrigger} setRefreshTrigger={setRefreshTrigger}
-                         queryMemberName={x => {
-                             let member = members.find(it => extractFriendId(it.uuid) === x.toString());
-                             return member ? member.name : x.toString()
-                         }}
-    />
+    return (
+        <Box sx={{height: '100%'}}>
+            <MessageLines currentBot={currentBot} loading={loading} messages={messages}
+                          hideRetractedMessages={hideRetracted} setHideRetractedMessages={setHideRetracted}
+                          startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime}
+                          setCommittedStartTime={setCommittedStartTime} setCommittedEndTime={setCommittedEndTime}
+                          refreshTrigger={refreshTrigger} setRefreshTrigger={setRefreshTrigger}
+                          queryMemberName={x => {
+                              let member = members.find(it => extractFriendId(it.uuid) === x.toString());
+                              return member ? member.name : x.toString()
+                          }}
+            />
+        </Box>
+    );
 }
