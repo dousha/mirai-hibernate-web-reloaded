@@ -26,20 +26,11 @@ export function getImageUrl(fromId: number, targetId: number, imageId: string, i
     return `https://gchat.qpic.cn/gchatpic_new/${fromId}/${targetId}-0-${match}/0?term=${isFlashImage ? 2 : 3}`;
 }
 
-export function getMarketFaceUrl(delegate: {faceId: Array<number>, tabId: number, subType: number}) {
+export function getMarketFaceUrl(delegate: {faceId: Array<number>, tabId: number}) {
     let md5 = delegate.faceId.map(x => x < 0 ? 256 + x : x).map(x => x.toString(16).padStart(2, '0')).join('');
-    let size = delegate.tabId < 10_0000 ? 200 : 300;
-    let type = delegate.subType as number;
+    let type = delegate.tabId < 10_0000 ? `200x200.png` : `raw300.gif`;
 
-    if (type === 1 || type === 3) {
-        return `https://gxh.vip.qq.com/club/item/parcel/item/${md5.substring(0, 2)}/${md5}/raw${size}.gif`;
-    }
-
-    if (type === 2) {
-        return `https://gxh.vip.qq.com/club/item/parcel/item/${md5.substring(0, 2)}/${md5}/raw${size}.png`;
-    }
-
-    return `https://gxh.vip.qq.com/club/item/parcel/item/${md5.substring(0, 2)}/$md5/${size}x${size}.png`;
+    return `https://gxh.vip.qq.com/club/item/parcel/item/${md5.substring(0, 2)}/${md5}/${type}`;
 }
 
 async function getUrl<T>(url: string, params?: Record<string, string | number>) {
